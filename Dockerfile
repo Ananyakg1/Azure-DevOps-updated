@@ -1,5 +1,5 @@
-# Use official Python runtime as base image with specific version for security
-FROM python:3.11.9-slim-bullseye
+# Use official Python runtime as base image with latest patch for security
+FROM python:3.11-slim
 
 # Set environment variables for security and performance
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -12,12 +12,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 RUN groupadd --gid 1000 appuser && \
     useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash appuser
 
-# Update system packages and install security updates
+# Update system packages and install security updates, then remove cache
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get dist-upgrade -y && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
