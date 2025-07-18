@@ -80,7 +80,7 @@ jobs:
         snyk container test ${{ env.IMAGE_NAME }}:latest --severity-threshold=high --json > snyk-docker-results.json || true
 
     - name: Upload Snyk results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: snyk-results
         path: |
@@ -92,7 +92,7 @@ jobs:
         docker save ${{ env.IMAGE_NAME }}:${{ github.sha }} > image.tar
 
     - name: Upload Docker image artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docker-image
         path: image.tar
@@ -108,7 +108,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Download Docker image artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: docker-image
 
@@ -300,7 +300,7 @@ jobs:
     
     steps:
     - name: Download Snyk results
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: snyk-results
 
@@ -324,7 +324,7 @@ jobs:
         fi
 
     - name: Upload security report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-report
         path: security-report.md
